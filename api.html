@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>new</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    <script src='main.js'></script>
+</head>
+
+<body ng-app="myApp" ng-controller="myCtrl">
+    <table class="table table-bordered">
+        <tr>
+            <th>UserId</th>
+            <th>Title</th>
+            <th>Body</th>
+        </tr>
+        <tr ng-repeat="data in postsArr"> 
+            <td>{{ data.userId}}</td> 
+            <td>{{ data.title}}</td> 
+            <td>{{data.body}}</td>
+            
+        </tr>
+        
+    </table>    
+
+    <script>
+        var app = angular.module('myApp', []);
+        app.controller('myCtrl', function ($scope,$http) {
+         $scope.postsArr=[];
+         $scope.getData=function(){
+            $http.get("https://jsonplaceholder.typicode.com/posts")
+                .then((resp) => {
+                    console.log(resp);
+                    $scope.postsArr=resp.data;
+                })
+        .catch()
+    }
+$scope.getData();
+        })
+    </script>
+    
+</body>
+
+</html>

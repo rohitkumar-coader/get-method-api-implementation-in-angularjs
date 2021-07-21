@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>new</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    <script src='Untitled-1.js'></script>
+</head>
+
+<body ng-app="myApp" ng-controller="myCtrl">
+    <ul>
+        <li ng-repeat="data in postsArr">{{ data.userId }} - {{ data.title }} - {{ data.body }} - {{
+            data.contact }}
+            <button ng-click="editEvent(data.id)">edit</button>- <button ng-click="deleteEvent(data.id)">delete</button>
+        </li>
+    </ul>
+    <div class="row">
+        <div class="col-md-4 mx-auto">
+            <div class="form-group ">
+                <label for="exampleFormControlInput1">FirstName</label>
+                <input type="text" class="form-control" ng-model="FirstName" placeholder="FirstName">
+            </div>
+            <div class="form-group ">
+                <label for="exampleFormControlInput1">LastName</label>
+                <input type="text" class="form-control" ng-model="LastName" placeholder="LastName">
+            </div>
+            <div class="form-group">
+                <label for="exampleFormControlInput1">age</label>
+                <input type="text" class="form-control" ng-model="age" placeholder="LastName">
+                
+            </div>
+            <div class="form-group">
+                <label for="exampleFormControlInput1">contact</label>
+                <input type="text" class="form-control" ng-model="contact" placeholder="contact">
+            </div>
+            <div class="form-group">
+                <button type="submit" ng-click="submitEvent()" class="btn btn-outline-success">Submit</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        var app = angular.module('myApp', []);
+        app.controller('myCtrl', function ($scope,$http) {
+            $scope.FirstName = "";
+            $scope.LastName = "";
+            $scope.age = "";
+            $scope.contact = "";
+            $scope.editFlag = false;
+            $scope.rowCollection = [];
+            $scope.editFlag = "";
+            $scope.submitEvent = function () {
+                // add
+                if($scope.FirstName=='' || !$scope.LastName || !$scope.age || !$scope.contact){
+                    alert("All fields are required");
+                    return false;
+                }
+                if ($scope.editFlag == false) {
+                    obj = {
+                        id: $scope.rowCollection.length + 1,
+                        FirstName: $scope.FirstName,
+                        LastName: $scope.LastName,
+                        age: $scope.age,
+                        contact: $scope.contact
+                    }
+                    $scope.rowCollection.push(obj);
+                    $scope.FirstName = "";
+                    $scope.LastName = "";
+                    $scope.age = "";
+                    $scope.contact = "";
+                
+                } else {
+                    //edit
+                    for (let data of $scope.rowCollection) {
+                        if (data.id === $scope.editFlagId) {
+                            data.FirstName = $scope.FirstName;
+                            data.LastName = $scope.LastName;
+                            data.age = $scope.age;
+                            data.contact = $scope.contact;
+                            break;
+                        }
+                    }
+                    $scope.editFlag = false;
+                    $scope.editFlagId = "";
+                    $scope.FirstName = "";
+                    $scope.LastName = "";
+                    $scope.age = "";
+                    $scope.contact = "";
+
+                }
+
+
+            }
+            $scope.editFlag = false;
+
+            $scope.editEvent = function (id) {
+                console.log(id);
+                for (let data of $scope.rowCollection) {
+                    if (data.id === id) {
+                        $scope.editFlag = true;
+                        $scope.editFlagId = data.id;
+                        $scope.FirstName = data.FirstName;
+                        $scope.LastName = data.LastName;
+                        $scope.age = data.age;
+                        $scope.contact = data.contact;
+                        break;
+                    }
+                }
+
+            }
+            $scope.deleteEvent = function (id) {
+                $scope.rowCollection = $scope.rowCollection.filter(data => data.id !== id);
+            }
+            $scope.postsArr=[];
+            $scope.getData=function(){
+                $http.get("https://jsonplaceholder.typicode.com/posts")
+                .then((resp) => {
+                    console.log(resp);  
+                    $scope.postsArr=resp.data;
+                })
+                .catch()
+            }
+            $scope.getData();
+        })
+    </script>
+</body>
+
+</html>
