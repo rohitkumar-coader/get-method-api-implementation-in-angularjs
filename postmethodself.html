@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>new5</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    <script src='Untitled-1.js'></script>
+</head>
+
+<body ng-app="myApp" ng-controller="myCtrl">
+</body>
+<div class="row">
+    <div class="col-md-4 mx-auto">
+        <div id="form-group ">
+            <label for="exampleFormControlInput1">FirstName</label>
+            <input type="text" class="form-control" id="firstname" ng-model="firstname" placeholder="please enter firstname">
+        </div>
+        <div id="form-group ">
+            <label for="exampleFormControlInput1">LastName</label>
+            <input type="text" class="form-control" id="lastname" ng-model="lastname" placeholder="please enter lastname">
+        </div>
+        <div id="form-group ">
+            <label for="exampleFormControlInput1">Age</label>
+            <input type="text" class="form-control" id="age" ng-model="age" placeholder="please enter age">
+        </div>
+        <div id=form-group ">
+            <label for="exampleFormControlInput1">Contact</label>
+            <input type="text" class="form-control" id="contact" ng-model="contact" placeholder="please enter contact">
+        </div>
+        <div id="form-group ">
+            <label for="exampleFormControlInput1">Add</label>
+            <input type="text" class="form-control" id="add" ng-model="add" placeholder="please enter adderess">
+        </div>
+        <div id="form-group">
+            <button type="submit" ng-click="submit()" class="btn btn-outline-success">Submit</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    var app = angular.module('myApp', []);
+    app.controller('myCtrl', function ($scope,$http) {
+        $scope.firstname="";
+        $scope.lastname="";
+        $scope.age="";
+        $scope.contact="";
+        $scope.add="";
+        $scope.validate=()=>{
+            isValid=true;
+            if(!$scope.firstname){
+                document.getElementById('firstname').style.border="0.2px solid red";
+                isValid=false;
+            }
+            if(!$scope.lastname){
+                document.getElementById('lastname').style.border="0.2px solid red";
+                isValid=false;
+            }
+            if(!$scope.age){
+                document.getElementById('age').style.border="0.2px solid red";
+                isValid=false;
+            }
+            if(!$scope.contact){
+                document.getElementById('contact').style.border="0.2px solid red";
+                isValid=false;
+            }
+            if(!$scope.add){
+                document.getElementById('add').style.border="0.2px solid red";
+                isValid=false;
+            }
+            if($scope.firstname){
+                document.getElementById('firstname').style.border="";
+            }
+            if($scope.lastname){
+                document.getElementById('lastname').style.border="";
+            }
+        
+            if($scope.age){
+                document.getElementById('age').style.border="";
+            }
+        
+            if($scope.contact){
+                document.getElementById('contact').style.border="";
+            }
+        
+            if($scope.add){
+                document.getElementById('add').style.border="";
+            }
+            return isValid;
+        }
+
+        
+  
+
+        $scope.submit = function(){
+            if($scope.validate()){
+                data={
+                    userId:1,
+                    firstname:$scope.firstname,
+                    lastname:$scope.lastname,
+                    age:$scope.age,
+                    contact:$scope.contact,
+                    add:$scope.add,
+                }
+                console.log(data)
+                $http({
+                    url: 'https://jsonplaceholder.typicode.com/posts',
+                    method: "POST",
+                    data: data
+                })
+                .then(function(response) {
+                        console.log(response);
+                }, 
+                function(response) { // optional
+                    console.log(response);
+                        // failed
+                });
+                  //response -> ng-model empty            
+                $scope.firstname="";
+                $scope.lastname="";
+                $scope.age="";
+                $scope.contact="";
+                $scope.add="";
+                 
+            }            
+
+        }
+    })
+</script>
+</html>
