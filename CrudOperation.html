@@ -4,8 +4,10 @@
 <head>
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>new</title>
-    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <title>crud</title>
+    <meta application entry='viewport' content='width=device-width, initial-scale=1'>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
     <script src='main.js'></script>
@@ -13,96 +15,190 @@
 
 <body ng-app="myApp" ng-controller="myCtrl">
     <ul>
-        <li ng-repeat="data in rowCollection">{{ data.name }} - {{ data.age }} - {{ data.unique}} <button ng-click="editEvent(data.id)">edit</button>- <button ng-click="deleteEvent(data.id)">delete</button></li>
+        <li ng-repeat="data in rowCollection">{{ data.email }} - {{ data.password }} - {{ data.adderess}} - {{
+            data.adderess2}} - {{ data.City}} - {{ data.zip}} <button ng-click="editEvent(data.id)">edit</button>-
+            <button ng-click="deleteEvent(data.id)">delete</button>
+        </li>
     </ul>
-    <div class="form-group">
-        <label for="exampleFormControlInput1">name</label>
-        <input type="text" class="form-control" ng-model="name" placeholder="name">
-    </div>
-    <div class="form-group">
-        <label for="exampleFormControlInput1">age</label>
-        <input type="text" class="form-control" ng-model="age" placeholder="age">
-    </div>
-    <div
-    class="form-group">
-<label for="exampleFormControlInput1">unique</label>
-<input type="text" class="form-control"ng-model="unique" placeholder="id"></div>
-    <div class="form-group">
-
-        <button type="submit" ng-click="submitEvent()" class="btn btn-primary">Submit</button>
-    </div>
+    <form class="row g-3">
+        <div class="col-md-6">
+            <label for="inputEmail4" class="form-label">Email</label>
+            <input type="email" class="form-control" ng-model="email" id="inputEmail4">
+        </div>
+        <div class="col-md-6">
+            <label for="inputPassword4" class="form-label">Password</label>
+            <input type="password" class="form-control" ng-model="password" id="inputPassword4">
+        </div>
+        <div class="col-12">
+            <label for="inputAddress" class="form-label">Address</label>
+            <input type="text" class="form-control" ng-model="adderess" id="inputAddress" placeholder="1234 Main St">
+        </div>
+        <div class="col-12">
+            <label for="inputAddress2" class="form-label">Address 2</label>
+            <input type="text" class="form-control" ng-model="adderess2" id="inputAddress2"
+                placeholder="Apartment, studio, or floor">
+        </div>
+        <div class="col-md-6">
+            <label for="inputCity" class="form-label">City</label>
+            <input type="text" class="form-control" ng-model="City" id="inputCity">
+        </div>
+        <div class="col-md-4">
+            <label for="inputState" class="form-label">State</label>
+            <select id="inputState" class="form-select">
+                <option selected>Choose...</option>
+                <option>yes</option>
+                <option>no</option>
+            </select>
+        </div>
+        <div class="col-md-2">
+            <label for="inputZip" class="form-label">Zip</label>
+            <input type="text" class="form-control" id="inputZip">
+        </div>
+        <div class="col-12">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="gridCheck">
+                <label class="form-check-label" for="gridCheck">
+                    Check me out
+                </label>
+            </div>
+        </div>
+        <div class="col-12">
+            <button type="submit" ng-click="Signin()" class="btn btn-primary">Sign in</button>
+        </div>
+    </form>
     <script>
         var app = angular.module('myApp', []);
         app.controller('myCtrl', function ($scope) {
-            $scope.name = "";
-            $scope.age = "";
-            $scope.unique="";
-            $scope.editFlag=false;
+            $scope.email = "";
+            $scope.password = "";
+            $scope.adderess = "";
+            $scope.adderess2 = "";
+            $scope.city = "";
+            $scope.zip = "";
+            $scope.editFlag = false;
             $scope.rowCollection = [
                 {
                     id: 1,
-                    name: 'test',
-                    age: 25,
-                    unique:1
+                    email: 'rohit@iesl.co',
+                    password: 'Rohit@123',
+                    adderess: 'aurangabad',
+                    adderess2: 'gaya',
+                    city: 'gaya',
+                    zip: 824203
                 }
             ];
-            $scope.editFlagId="";
-            $scope.submitEvent = function () {
-                // add
-                if($scope.editFlag==false){
-                    obj = {
-                        id: $scope.rowCollection.length + 1,
-                        name: $scope.name,
-                        age: $scope.age
-                    }
+
+            $scope.editFlagId = "";
+
+            $scope.validateForm= function() {
+                let isValid=true;
+                if(!$scope.email){
+                    document.getElementById('inputEmail4').style.border="0.2px solid red";
+                    isValid=false;
+                }
+                if($scope.email){
+                    document.getElementById('inputEmail4').style.border="";
+                }
+                if(!$scope.password){
+                    document.getElementById('inputPassword4').style.border="0.2px solid red";
+                    isValid=false;
+                }
+                if($scope.password){
+                    document.getElementById('inputPassword4').style.border="";
+                }
+                if(!$scope.adderess){
+                    document.getElementById('inputAddress').style.border="0.2px solid red";
+                    isValid=false;
+                }
+                if($scope.adderess){
+                    document.getElementById('inputAddress').style.border="";
+                }
+
+            
+                if(!$scope.adderess2){
+                    document.getElementById('inputAddress2').style.border="0.2px solid red";
+                    isValid=false;
+                }
+                if($scope.adderess2){
+                    document.getElementById('inputAddress2').style.border="";
+                }
+
+                return isValid
+            }
+
+            $scope.Signin = function () {
+                if(!$scope.validateForm()){
+                    return false;
+                }
+
+                obj = {
+                    id: $scope.rowCollection.length + 1,
+                    email: $scope.email,
+                    password: $scope.password,
+                    adderess: $scope.adderess,
+                    adderess2: $scope.adderess2,
+                    city: $scope.city,
+                    zip: $scope.zip
+                }
+
+                if ($scope.editFlag == false) {
+
                     $scope.rowCollection.push(obj);
-                    $scope.name = "";
-                    $scope.age = "";
-                    $scope.unique= "";
-                }else{
+                    $scope.email = "";
+                    $scope.password = "";
+                    $scope.adderess = "";
+                    $scope.adderess2 = "";
+                    $scope.city = "";
+                    $scope.zip = "";
+                } else {
                     //edit
-                    for(let data of $scope.rowCollection){
-                        if(data.id===$scope.editFlagId){
-                            data.name=$scope.name;
-                            data.age=$scope.age;
-                            data.unique=$scope.unique;
+                    for (let data of $scope.rowCollection) {
+                        if (data.id === $scope.editFlagId) {
+                            data.name = $scope.email;
+                            data.age = $scope.password;
+                            data.unique = $scope.adderess;
+                            data.unique = $scope.adderess2;
+                            data.unique = $scope.city;
+                            data.unique = $scope.zip;
                             break;
                         }
+                    }
                 }
-                $scope.editFlag=false;
-                $scope.editFlagId="";
-                $scope.name = "";
-                    $scope.age = "";
-                    $scope.unique ="";
-
-                }
-                
-
+                $scope.editFlag = false;
+                $scope.editFlagId = "";
+                $scope.email = "";
+                $scope.password = "";
+                $scope.adderess = "";
+                $scope.adderess2 = "";
+                $scope.city = "";
+                $scope.zip = "";
             }
-            $scope.editFlag=false;
-            
+            $scope.editFlag = false;
+
             $scope.editEvent = function (id) {
                 console.log(id);
-                for(let data of $scope.rowCollection){
-                    if(data.id===id){
-                        $scope.editFlag=true;
-                        $scope.editFlagId=data.id;
-                        $scope.name=data.name;
-                        $scope.age=data.age;
-                        $scope.unique=data.unique;
+                for (let data of $scope.rowCollection) {
+                    if (data.id === id) {
+                        $scope.editFlag = true;
+                        $scope.editFlagId = data.id;
+                        $scope.email = data.email;
+                        $scope.password = data.password;
+                        $scope.adderess = data.adderess;
+                        $scope.adderess2 = data.adderess2;
+                        $scope.city = data.city;
+                        $scope.zip = data.zip;
                         break;
                     }
                 }
-                
+
             }
-            $scope.deleteEvent= function (id) {
-             $scope.rowCollection=$scope.rowCollection.filter(data=> data.id!==id);   
+
+            $scope.deleteEvent = function (id) {
+                $scope.rowCollection = $scope.rowCollection.filter(data => data.id !== id);
             }
+
         });
     </script>
-
-
-
 </body>
 
 </html>
