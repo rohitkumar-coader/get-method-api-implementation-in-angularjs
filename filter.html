@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>new</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    <script src='main.js'></script>
+</head>
+
+<body ng-app="myApp" ng-controller="myCtrl">
+    <input type="text" ng-model="search" placeholder="search here">
+    <!-- html     -->
+    <u1>
+        <li ng-repeat="x in details | orderBy: '-name' | filter:search">{{x.name}}</li>
+      </u1>
+    <script>
+        var app = angular.module('myApp', []);
+        app.controller('myCtrl', function ($scope) {
+        //  array
+        $scope.details=[
+    {
+        name:"rohit",
+        lastName:"kumar"
+    },
+    {
+        name:"pramod",
+        lastName:"varma"
+    },
+    {
+        name:"suman",
+        lastName:"kush"
+    },
+    {
+        name:"amrjeeet",
+        lastName:"kushwaha"
+    }
+];
+        })
+    </script>
+    
+</body>
+
+</html>
