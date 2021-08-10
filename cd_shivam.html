@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Crudoperation</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+    <!-- <script src='main.js'></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
+</head>
+
+<body ng-app="myApp" ng-controller="myCtrl">
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">add data</button>
+
+<div class="modal fade bd-example-modal-lg" id="large" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+        <form class="" id="basic-form" method="POST">
+            <div class="modal-body">
+                <div class="row">
+                    <div class="form-group col-md-6 ml-auto" ng-hide="editFlag">
+                        <label for="employeeId">employeeId</label>
+                            <input type="number" class="form-control" ng-class="!employeeId?'error':''"
+                            name="employeeId" n ng-model="employeeId" placeholder="enter employeeId">
+                        <span ng-if="!employeeId" style="color: red;">This field is required.</span>
+                    </div>
+                        <div class="form-group col-md-6 ml-auto">
+                    <label for="position">position <span>(required)</span></label>
+                    <input type="text" class="form-control" id="position" ng-model="position"
+                        placeholder="Enter position">
+                    <span ng-if="!position" style="color: red;">This field is required.</span>
+                    </div>
+                </div>
+                <div class="row ">    
+                        <div class="form-group col-md-6 ml-auto ">
+                            <label for="name"> <span>(required)</span>name</label>
+                            <input type="text" class="form-control" id="name" ng-model="name"placeholder="Enter name">
+                        </div>
+                            <div class="form-group col-md-6 ml-auto ">
+                             <label for="contact">contact<span>(required)</span></label>
+                                <input type="text" class="form-control" id="contact" ng-model="contact"
+                                        laceholder="Enter contact">
+                            </div>
+                </div>
+            <div class="row "> 
+                <div class="form-group col-md-6 ml-auto">
+                    <label for="city">city</label>
+                    <input type="text" class="form-control" ng-model="city" placeholder="Enter city">
+                </div>
+                <div class="form-group col-md-6 ml-auto">
+                    <label for="state">address</label>
+                    <input type="text" class="form-control" id="address" ng-model="address" placeholder="Enter adderss">
+                </div> 
+                <div class="form-group col-md-6 ml-auto">
+                    <label for="state">state</label>
+                    <input type="text" class="form-control" id="state"ng-model="state" placeholder="Enter state">
+                </div>           
+            </div>
+
+            <div class="row">
+                <div class="form-group col-md-6 ml-auto ">
+                    <label for="country">country</label>
+                    <input type="text" class="form-control" ng-model="country" placeholder="Enter country">
+                </div>
+            </div>
+        </form>
+        <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" ng-click="submitEvent()">Save changes</button>
+            </div>
+        </div>
+    </div>
+  </div>
+</div>
+    
+    <!-- <ul>
+        <li ng-repeat="data in postsArr">
+            <button ng-click="editEvent(data.id)">edit</button>- <button ng-click="deleteEvent(data.id)">delete</button>
+        </li>
+    </ul> -->
+
+    <div class="form-outline">
+        <input type="search" id="myInput" ng-model="query" ng-change="myFunction()" class="form-control"
+            placeholder="Search here" />
+    </div>
+    <table class="table table-bordered" id="myTable">
+        <tr>
+            <th ng-click="sortingId()">id</th>
+            <th ng-click="sortData('name')">name</th>
+            <th ng-click="sortData('position')">position</th>
+            <th ng-click="sortTable(4)">address</th>
+            <th ng-click="sortTable(5)">contact</th>
+            <th ng-click="sortTable(6)">city</th>
+            <th ng-click="sortTable(7)">state</th>
+            <th ng-click="sortTable(8)">country</th>
+            <th>edit</th>
+            <th>delete</th>
+        </tr>
+        <tr ng-repeat="data in postsArr">
+            <td>{{ data.employeeId }}</td>
+            <td>{{ data.name }}</td>
+            <td>{{ data.position }}</td>
+            <td>{{ data.address}}</td>
+            <td>{{ data.contact}}</td>
+            <td>{{ data.city}}</td>
+            <td>{{ data.state}}</td>
+            <td>{{ data.country}}</td>
+            <td><button ng-click="editEvent(data.employeeId)" data-toggle="modal"
+                data-target=".bd-example-modal-lg">edit</button></td>
+            <td><button ng-click="deleteEvent(data.employeeId)">delete</button></td>
+        </tr>
+    </table>
+    <script>
+        var app = angular.module('myApp', []);
+        app.controller('myCtrl', function ($scope, $http) {
+            $scope.query = "";
+            $scope.name = "";
+            $scope.employeeId = "";
+            $scope.position = "";
+            $scope.name = "";
+            $scope.address = "";
+            $scope.contact = "";
+            $scope.city = "";
+            $scope.state = "";
+            $scope.country = "";
+            $scope.editFlag = false;
+            $scope.editFlagId = "";
+            $scope.employeeIdSort = false;
+
+
+            $scope.validation = function () {
+                var isValid = true;
+                if (!$scope.position) {
+                    document.getElementById('position').style.border = "0.2px solid red";
+                    isValid = false;
+                }
+                if ($scope.position) {
+                    document.getElementById('position').style.border = "";
+
+                }
+                if (!$scope.name) {
+                    document.getElementById('name').style.border = "0.2px solid red"
+                    isValid = false;
+                }
+                if ($scope.name) {
+                    document.getElementById('name').style.border = "";
+                }
+                if (!$scope.address) {
+                    document.getElementById('address').style.border = "0.2px solid red"
+                    isValid = false;
+                }
+                if ($scope.address) {
+                    document.getElementById('address').style.border = "";
+                }
+                if (!$scope.contact) {
+                    document.getElementById('contact').style.border = "0.2px solid red"
+                    isValid = false;
+                }
+                if ($scope.contact) {
+                    document.getElementById('contact').style.border = "";
+                }
+                return isValid;
+            }
+
+
+
+            $scope.sortingId = function () {
+                if ($scope.employeeIdSort) {
+                    $scope.postsArr.sort(function (a, b) {
+                        return a.employeeId - b.employeeId;
+                    })
+                    $scope.employeeIdSort = false;
+                } else {
+                    $scope.postsArr.sort(function (a, b) {
+                        return b.employeeId - a.employeeId;
+                    })
+                    $scope.employeeIdSort = true;
+                }
+
+            }
+            $scope.submitEvent = function () {
+                if (!$scope.validation()) {
+                    return false;
+                }
+                if ($scope.editFlag == false) {
+                    obj = {
+                        employeeId: $scope.employeeId,
+                        position: $scope.position,
+                        name: $scope.name,
+                        address: $scope.address,
+                        contact: $scope.contact,
+                        city: $scope.city,
+                        state: $scope.state,
+                        country: $scope.country
+                    }
+                    $scope.postsArr.push(obj);
+                    $scope.employeeId = "";
+                    $scope.position = "";
+                    $scope.name = "";
+                    $scope.address = "";
+                    $scope.contact = "";
+                    $scope.city = "";
+                    $scope.state = "";
+                    $scope.country = "";
+                } else {
+
+                    for (let data of $scope.postsArr) {
+                        if (data.employeeId === $scope.editFlagId) {
+                            data.employeeId = $scope.employeeId;
+                            data.position = $scope.position;
+                            data.name = $scope.name;
+                            data.address = $scope.address;
+                            data.contact = $scope.contact;
+                            data.city = $scope.city;
+                            data.state = $scope.state;
+                            data.country = $scope.country;
+                            break;
+                        }
+                    }
+                    $scope.editFlag = false;
+                    $scope.editFlagId = "";
+                    $scope.employeeId = "";
+                    $scope.position = "";
+                    $scope.name = "";
+                    $scope.address = "";
+                    $scope.contact = "";
+                    $scope.city = "";
+                    $scope.state = "";
+                    $scope.country = "";
+
+                }
+
+
+            }
+            $scope.editFlag = false;
+
+            $scope.editEvent = function (id) {
+                console.log("tftrt",id)
+                for (let data of $scope.postsArr) {
+                    if (data.employeeId === id) {
+                        $scope.editFlag = true;
+                        $scope.editFlagId = data.employeeId;
+                        $scope.employeeId = data.employeeId;
+                        $scope.position = data.position;
+                        $scope.name = data.name;
+                        $scope.address = data.address;
+                        $scope.contact = data.contact;
+                        $scope.city = data.city;
+                        $scope.state = data.state;
+                        $scope.country = data.country;
+                        break;
+                    }
+                }
+            }
+            // Array.prototype.sortBy = function(p) {
+            //     return this.slice(0).sort(function(a,b) {
+            //         return (a[p] > b[p]) ? 1 : (a[p] < b[p]) ? -1 : 0;
+            //     });
+            // }
+            //  $scope.sortList =  function (keyItem) {
+            //      console.log(keyItem);
+            //      $scope.postsArr.sortBy(keyItem)
+
+            // }
+
+            $scope.sortTable = function (n) {
+                var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+                table = document.getElementById("myTable");
+                switching = true;
+                //Set the sorting direction to ascending:
+                dir = "asc";
+                /*Make a loop that will continue until
+                no switching has been done:*/
+                while (switching) {
+                    //start by saying: no switching is done:
+                    switching = false;
+                    rows = table.rows;
+                    /*Loop through all table rows (except the
+                    first, which contains table headers):*/
+                    for (i = 1; i < (rows.length - 1); i++) {
+                        //start by saying there should be no switching:
+                        shouldSwitch = false;
+                        /*Get the two elements you want to compare,
+                        one from current row and one from the next:*/
+                        x = rows[i].getElementsByTagName("TD")[n];
+                        y = rows[i + 1].getElementsByTagName("TD")[n];
+                        /*check if the two rows should switch place,
+                        based on the direction, asc or desc:*/
+                        if (dir == "asc") {
+                            if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                                //if so, mark as a switch and break the loop:
+                                shouldSwitch = true;
+                                break;
+                            }
+                        } else if (dir == "desc") {
+                            if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+                                //if so, mark as a switch and break the loop:
+                                shouldSwitch = true;
+                                break;
+                            }
+                        }
+                    }
+                    if (shouldSwitch) {
+                        /*If a switch has been marked, make the switch
+                        and mark that a switch has been done:*/
+                        rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                        switching = true;
+                        //Each time a switch is done, increase this count by 1:
+                        switchcount++;
+                    } else {
+                        /*If no switching has been done AND the direction is "asc",
+                        set the direction to "desc" and run the while loop again.*/
+                        if (switchcount == 0 && dir == "asc") {
+                            dir = "desc";
+                            switching = true;
+                        }
+                    }
+                }
+            }
+
+
+            $scope.deleteEvent = function (employeeId) {
+                $scope.postsArr = $scope.postsArr.filter(data => data.employeeId !== employeeId);
+            }
+            $scope.postsArr = [];
+            $scope.getData = function () {
+                $http.get("employee.json")
+                    .then((resp) => {
+                        console.log(resp);
+                        $scope.postsArr = resp.data;
+                        console.log($scope.postsArr)
+                    })
+                    .catch()
+            }
+            $scope.getData();
+
+
+            $scope.myFunction = function () {
+                console.log($scope.query);
+                var input, filter, table, tr, td, i, txtValue;
+                input = document.getElementById("myInput");
+                //   filter = input.value.toUpperCase();
+                table = document.getElementById("myTable");
+
+                tr = table.getElementsByTagName("tr");
+                for (i = 0; i < tr.length; i++) {
+                    td = tr[i].getElementsByTagName("td")[0];
+                    if (td) {
+                        txtValue = td.textContent || td.innerText;
+                        if (txtValue.toUpperCase().indexOf($scope.query.toUpperCase()) > -1) {
+                            tr[i].style.display = "";
+                        } else {
+                            tr[i].style.display = "none";
+                        }
+                    }
+                }
+            }
+        })
+
+
+    </script>
+    </form>
+</body>
+<style>
+    .error {
+        border: 0.2px solid red;
+    }
+</style>
+
+</html>
