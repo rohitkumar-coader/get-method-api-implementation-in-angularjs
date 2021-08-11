@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <!-- <link rel='stylesheet' type='text/css' media='screen' href='main.css'> -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+    <title>hello</title>
+</head>
+<body ng-app="myApp" ng-controller="myCtrl">
+    <div>
+        <button ng-show="markTableFlag" ng-click="backToStudentTable()">mark</button>
+    </div>
+    <table class="table table-bordered" id="myTable" ng-show="studentTableFlag" >
+        <tr>
+            <th ng-click="">id</th>
+            <th ng-click="">collegeCode</th>
+            <th ng-click="">studentName</th>
+            <th ng-click="">course</th>
+            <th ng-click="">contact</th>
+            <th ng-click="">city</th>
+            <th ng-click="">state</th>
+            <th ng-click="">Action </th>
+        </tr>
+        <tr ng-repeat="data in postsArr">
+            <td>{{ data.id }}</td>
+            <td>{{ data.collegeCode }} </td>
+            <td>{{ data.studentName }}</td>
+            <td>{{ data.course}}</td>
+            <td>{{ data.contact}}</td>
+            <td>{{ data.city}}</td>
+            <td>{{ data.state}}</td>
+            <td><button ng-click="showmarks(data.id)" data-toggle="modal"
+                data-target=".bd-example-modal-lg">show marks</button></td>
+        </tr>
+        </table>
+        
+        <table class="table table-bordered" ng-show="markTableFlag" >
+            <tr>
+                <th ng-click="">id</th>
+                <td>{{studentId}}</td>
+            </tr>
+            <tr>
+                <th ng-click="">english</th>
+                <td>{{engMark}}</td>
+            </tr>
+            <tr>
+                <th ng-click="">math</th>
+                <td>{{mathMark}}</td>
+            </tr>
+            <tr>
+                <th ng-click="">computer</th>
+                <td>{{comMark}}</td>
+            </tr>
+            <tr>
+                <th ng-click="">science</th>
+                <td>{{sciMark}}</td>
+            </tr>
+            <tr>
+                <th ng-click="">sst</th>
+                <td>{{sstMark}}</td>
+            </tr>
+            <tr>
+                <th ng-click="">Total Marks</th>
+                <td>{{engMark+mathMark+comMark+sciMark+sstMark}}</td>
+            </tr>
+            </table>
+    <script>
+        var app = angular.module('myApp', []);
+        app.controller('myCtrl', function ($scope, $http) {   
+            $scope.id = "";
+            $scope.collegeCode = "";
+            $scope.studentName = "";
+            $scope.course = "";
+            $scope.contact = "";
+            $scope.city = "";
+            $scope.state = "";
+            $scope.country = "";
+
+            $scope.studentTableFlag=true;
+            $scope.markTableFlag=false;
+        
+        $scope.postsArr= [];
+            $scope.getData = function () {
+                $http.get("student.json")
+                    .then((resp) => {
+                        console.log(resp);
+                        $scope.postsArr = resp.data;
+                        console.log($scope.postsArr)
+                    })
+                    .catch()
+            }
+            $scope.getData();
+            $scope.marksArr= [];
+            $scope.getData = function () {
+                $http.get("marks.json")
+                    .then((resp) => {
+                        console.log(resp);
+                        $scope.marksArr = resp.data;
+                        console.log($scope.marksArr)
+                    })
+                    .catch()
+            }
+            $scope.showmarks = function(id){
+                $scope.studentTableFlag=false;
+                $scope.markTableFlag=true;
+                $scope.marksArr.forEach(current => {
+                    if(current.id==id){
+                        $scope.studentId=current.id;
+                        $scope.engMark=current.english;
+                        $scope.mathMark=current.math;
+                        $scope.comMark=current.computer;
+                        $scope.sciMark=current.science;
+                        $scope.sstMark=current.sst;
+                        $scope.totalMark=AnimationPlaybackEvent
+                    }
+                });
+
+	        	
+	        }
+            $scope.backToStudentTable=function(){
+                $scope.studentTableFlag=true;
+                $scope.markTableFlag=false;
+            }
+        })
+    </script>
+</body>
+</html>
